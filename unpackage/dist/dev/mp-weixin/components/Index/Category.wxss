@@ -1,0 +1,51 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.category.data-v-92e30b54 {
+  width: 120px;
+  height: 100%;
+  font-size: 14px;
+  background-color: #f3f3f3;
+  overflow-y: auto;
+}
+.category.data-v-92e30b54::-webkit-scrollbar {
+  width: 3px;
+  /* 定义滚动条宽度 */
+}
+.category.data-v-92e30b54::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+}
+.category.data-v-92e30b54::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+/* 定制 Firefox 中的滚动条样式 */
+.category.data-v-92e30b54 {
+  scrollbar-color: #888 #f1f1f1;
+  /* thumb track */
+  scrollbar-width: thin;
+}
+.category-item.data-v-92e30b54 {
+  width: 100%;
+  text-align: center;
+  padding: 15px 0;
+  color: #282828;
+}
+.category-active.data-v-92e30b54 {
+  background-color: #ffffff;
+  width: 100%;
+  border-radius: 25px 0 0 25px;
+  position: relative;
+}
+.category-active.data-v-92e30b54::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: #d8314d;
+  z-index: 9;
+  top: 42%;
+  left: 10px;
+}
+
