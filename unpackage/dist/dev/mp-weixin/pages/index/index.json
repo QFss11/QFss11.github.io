@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "汇川酒屋",
-  "usingComponents": {
-    "category": "/components/Index/Category",
-    "commodity-list": "/components/common/CommodityList"
-  }
-}

@@ -1,9 +1,0 @@
-@charset "UTF-8";
-/* 水平间距 */
-/* 水平间距 */
-.index.data-v-57280228 {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-}
-
