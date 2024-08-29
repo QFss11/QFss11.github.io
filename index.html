@@ -1,274 +1,456 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Dc浪漫</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="./css/main.css">
-		<style></style>
-	</head>
-	<body>
-		<div id="container"></div>
-		<div class="plane">
+
+<head>
+	<title>hq浪漫回忆</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="./css/main.css">
+	<link type="text/css" rel="stylesheet" href="./css/textcon.css">
+</head>
+
+<body>
+	<audio autoplay="autoplay" loop="loop" controls="controls" preload="auto" id="audio" style="display: none;">
+		<source src="./audio/是一颗心免于哀伤.mp3" type="audio/mpeg">
+		您的浏览器不支持 audio 元素。
+	</audio>
+	<div class="textCon">
+		<div class="words">流萤宝宝,我们已经相识第</div>
+		<div class="days">
+			<span class="days-number"></span>
+			<span class="days-label">天</span>
 		</div>
-    <!-- 本项目 用到 ES6 语法请用node打开 或者使用 编译器的 server 打开 如用webStorm打开，或者使用 vs code 安装 Live Server 插件打开-->
-		<script type="importmap">
-			{
-				"imports": {
-					"three": "./js/three.module.js"
+		<div class="seconds"></div>
+	</div>
+	<div class="heart"></div>
+	<div id="container"></div>
+	<div class="plane"></div>
+	<div class="objectCSSArr"></div>
+
+	<script src="./js/three.min.js"></script>
+	<script src="./js/tween.min.js"></script>
+	<script src="./js/TrackballControls.js"></script>
+	<script src="./js/CSS3DRenderer.js"></script>
+	<script>
+		// 需要126张照片 在数组里填写 照片地址（照片可以通过发布图床形式，或者引用微博上的图片地址，或者是自己直接扔项目中用相对路径引用）
+		const table = [
+			'./img/1.jpg',
+			'./img/2.jpg',
+			'./img/3.jpg',
+			'./img/4.jpg',
+			'./img/5.jpg',
+			'./img/6.jpg',
+			'./img/7.jpg',
+			'./img/8.jpg',
+			'./img/9.jpg',
+			'./img/10.jpg',
+			'./img/11.jpg',
+			'./img/12.jpg',
+			'./img/13.jpg',
+			'./img/14.jpg',
+			'./img/15.jpg',
+			'./img/16.jpg',
+			'./img/17.jpg',
+			'./img/18.jpg',
+			'./img/19.jpg',
+			'./img/20.jpg',
+			'./img/21.jpg',
+			'./img/22.jpg',
+			'./img/23.jpg',
+			'./img/24.jpg',
+			'./img/25.jpg',
+			'./img/26.jpg',
+			'./img/27.jpg',
+			'./img/28.jpg',
+			'./img/29.jpg',
+			'./img/30.jpg',
+			'./img/31.jpg',
+			'./img/32.jpg',
+			'./img/33.jpg',
+			'./img/34.jpg',
+			'./img/35.jpg',
+			'./img/36.jpg',
+			'./img/37.jpg',
+			'./img/38.jpg',
+			'./img/39.jpg',
+			'./img/40.jpg',
+			'./img/41.jpg',
+			'./img/42.jpg',
+			'./img/43.jpg',
+			'./img/44.jpg',
+			'./img/45.jpg',
+			'./img/46.jpg',
+			'./img/47.jpg',
+			'./img/48.jpg',
+			'./img/49.jpg',
+			'./img/50.jpg',
+			'./img/51.jpg',
+			'./img/52.jpg',
+			'./img/53.jpg',
+			'./img/54.jpg',
+			'./img/55.jpg',
+			'./img/56.jpg',
+			'./img/57.jpg',
+			'./img/58.jpg',
+			'./img/59.jpg',
+			'./img/60.jpg',
+			'./img/61.jpg',
+			'./img/62.jpg',
+			'./img/63.jpg',
+			'./img/64.jpg',
+			'./img/65.jpg',
+			'./img/66.jpg',
+			'./img/67.jpg',
+			'./img/68.jpg',
+			'./img/69.jpg',
+			'./img/70.jpg',
+			'./img/71.jpg',
+			'./img/72.jpg',
+			'./img/73.jpg',
+			'./img/74.jpg',
+			'./img/75.jpg',
+			'./img/76.jpg',
+			'./img/77.jpg',
+			'./img/78.jpg',
+			'./img/79.jpg',
+			'./img/80.jpg',
+			'./img/81.jpg',
+			'./img/82.jpg',
+			'./img/83.jpg',
+			'./img/84.jpg',
+			'./img/85.jpg',
+			'./img/86.jpg',
+			'./img/87.jpg',
+			'./img/88.jpg',
+			'./img/89.jpg',
+			'./img/90.jpg',
+			'./img/91.jpg',
+			'./img/92.jpg',
+			'./img/93.jpg',
+			'./img/94.jpg',
+			'./img/95.jpg',
+			'./img/96.jpg',
+			'./img/97.jpg',
+			'./img/98.jpg',
+			'./img/99.jpg',
+			'./img/100.jpg',
+			'./img/101.jpg',
+			'./img/102.jpg',
+			'./img/103.jpg',
+			'./img/104.jpg',
+			'./img/105.jpg',
+			'./img/106.jpg',
+			'./img/107.jpg',
+			'./img/108.jpg',
+			'./img/109.jpg',
+			'./img/110.jpg',
+			'./img/111.jpg',
+			'./img/112.jpg',
+			'./img/113.jpg',
+			'./img/114.jpg',
+			'./img/115.jpg',
+			'./img/116.jpg',
+			'./img/117.jpg',
+			'./img/118.jpg',
+			'./img/119.jpg',
+			'./img/120.jpg',
+			'./img/121.jpg',
+			'./img/122.jpg',
+			'./img/123.jpg',
+			'./img/124.jpg',
+			'./img/125.jpg',
+			'./img/126.jpg',
+		];
+
+		let camera, scene, renderer, geometry, material, plane, vector;
+		let controls, dom, obj, objectCSSArr;
+		const objects = [];
+		const targets = { helix: [] };
+		var arr = "2024-06-19 12:00:00".split(/[- :]/);//改这里(认识的时间）
+		var box = document.getElementsByClassName('textCon')[0];
+
+		document.addEventListener('click', function () {
+			const audioId = document.getElementById('audio').play();
+		});
+		// 可自定义修改变量
+		// 旋转速度
+		const rSpeed = 0.005;
+		// 背景需要旋转的角度 rad  Math.PI / 10
+		const rad = Math.PI / 10;
+
+		init();
+		animate();
+		// 雪花
+		// snow();
+		window.setInterval(timer_start, 1000);
+		timer_start();
+
+		function init() {
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
+			camera.position.z = 1000;
+
+			dom = document.getElementsByClassName('plane')[0];
+			objectDiv = document.getElementsByClassName('objectCSSArr')[0];
+			dom.style.background = 'url(./img/one1.png) no-repeat center center';
+			dom.style.backgroundSize = '100% 100%'
+			obj = new THREE.CSS3DObject(dom);
+			objectCSSArr = new THREE.CSS3DObject(objectDiv);
+			// 添加到场景中
+			scene.add(obj);
+
+			var width = dom.offsetWidth;
+			var count = parseInt(width / 50 * 2);
+			for (var i = 0; i < count; i++) {
+				var size = parseInt(ran(60, 120) / 10);
+				var ele = document.createElement('div');
+				ele.classList.add('item');
+				ele.style.width = size + 'px';
+				ele.style.height = size + 'px';
+				ele.style.left = ran(0, 95) + '%';
+				ele.style.top = ran(20, 80) + '%';
+				ele.style.animationDelay = ran(0, 30) / 10 + 's';
+				dom.appendChild(ele);
+			}
+
+			for (let i = 0; i < table.length; i += 1) {
+				const element = document.createElement('div');
+				i >= 84 ? element.className = 'element last-element' : element.className = 'element';
+				// element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+				element.style.background = 'url(' + table[i] + ') no-repeat center center';
+				element.style.backgroundSize = '100% 100%';
+				const objectCSS = new THREE.CSS3DObject(element);
+				objectCSSArr.add(objectCSS)
+				objects.push(objectCSS);
+			}
+
+			scene.add(objectCSSArr);
+			// 环绕舞台场景
+			let y = 400;
+			let x = 0;
+			vector = new THREE.Vector3();
+			for (let i = 0, l = objects.length; i < l; i++) {
+
+				x >= 42 ? x = 1 : x += 1;
+				const theta = x * 0.15;
+				i % 42 == 0 ? y = y - 200 : y = y;
+
+				//实现Object3D对三维空间中的物体进行操纵
+				const object = new THREE.Object3D();
+
+				// object.position.setFromCylindricalCoords( 1000, theta, y );
+				object.position.x = 1000 * Math.sin(theta);
+				object.position.y = y;
+				object.position.z = 1000 * Math.cos(theta);
+
+				vector.x = object.position.x * - 2;
+				vector.y = object.position.y;
+				vector.z = object.position.z * - 2;
+
+				// 旋转物体使其在世界空间中面朝一个点
+				object.lookAt(vector);
+
+				targets.helix.push(object);
+
+			}
+			// 调用并实现CSS3Denderer渲染器
+			renderer = new THREE.CSS3DRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.getElementById('container').appendChild(renderer.domElement);
+			controls = new THREE.TrackballControls(camera, renderer.domElement);
+			transform(targets.helix, 2000);
+		}
+
+		function ran(min, max) {
+			min = parseInt(min);
+			max = parseInt(max);
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+		function timer_start() {
+			var start_time = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
+			// var start_time =  new Date(beginTime);
+			// var start_time = Date.parse(beginTime);
+			var duration = parseInt(new Date() - start_time) / 1000;
+			var seconds = parseInt(duration % 60);
+			if (seconds < 10)
+				seconds = "0" + seconds;
+			duration = parseInt(duration / 60);
+			var minutes = duration % 60;
+			if (minutes < 10)
+				minutes = "0" + minutes;
+			duration = parseInt(duration / 60);
+			var hours = duration % 24;
+			if (hours < 10)
+				hours = "0" + hours;
+			duration = parseInt(duration / 24);
+			var days = duration;
+			document.getElementsByClassName('days-number')[0].innerHTML = ("" + days);
+			document.getElementsByClassName('seconds')[0].innerHTML = (hours + " 时 " + minutes + " 分 " + seconds + " 秒");
+		}
+
+
+		// 运动动画
+		function transform(targets, duration) {
+			for (let i = 0; i < objects.length; i++) {
+				const object = objects[i];
+				const target = targets[i];
+				// 借助Tween.js快速创建补间动画
+				new TWEEN.Tween(object.position)
+					.to({ x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration)
+					.easing(TWEEN.Easing.Exponential.InOut)
+					.start();
+
+				new TWEEN.Tween(object.rotation)
+					.to({ x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
+					.easing(TWEEN.Easing.Exponential.InOut)
+					.start();
+
+			}
+			obj.rotateZ(rad);
+			camera.rotateZ(rad)
+		}
+
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			render();
+		}
+
+		// 渲染场景
+		function animate() {
+			// 周期性渲染
+			requestAnimationFrame(animate);
+			// obj.rotation.y += rSpeed;	
+			objectCSSArr.rotation.y -= rSpeed;
+			TWEEN.update();
+			// controls.update();
+			renderer.render(scene, camera);
+		}
+		// 使用透视相机渲染一个场景
+		function render() {
+			renderer.render(scene, camera);
+		}
+		function snow() {
+			//	1、定义一片雪花模板
+			var flake = document.createElement('div');
+			// 雪花字符 ❄❉❅❆✻✼❇❈❊✥✺
+			flake.innerHTML = '❆';
+			flake.style.cssText = 'position:absolute;color:#fff;';
+
+			//获取页面的高度 相当于雪花下落结束时Y轴的位置
+			var documentHieght = window.innerHeight;
+			//获取页面的宽度，利用这个数来算出，雪花开始时left的值
+			var documentWidth = window.innerWidth;
+
+			//定义生成一片雪花的毫秒数
+			var millisec = 50;
+			//2、设置第一个定时器，周期性定时器，每隔一段时间（millisec）生成一片雪花；
+			setInterval(function () { //页面加载之后，定时器就开始工作
+				//随机生成雪花下落 开始 时left的值，相当于开始时X轴的位置
+				var startLeft = Math.random() * documentWidth;
+
+				//随机生成雪花下落 结束 时left的值，相当于结束时X轴的位置
+				var endLeft = Math.random() * documentWidth;
+
+				//随机生成雪花大小
+				var flakeSize = 5 + 20 * Math.random();
+
+				//随机生成雪花下落持续时间
+				var durationTime = 4000 + 7000 * Math.random();
+
+				//随机生成雪花下落 开始 时的透明度
+				var startOpacity = 0.7 + 0.3 * Math.random();
+
+				//随机生成雪花下落 结束 时的透明度
+				var endOpacity = 0.2 + 0.2 * Math.random();
+
+				//克隆一个雪花模板
+				var cloneFlake = flake.cloneNode(true);
+
+				//第一次修改样式，定义克隆出来的雪花的样式
+				cloneFlake.style.cssText += `
+            			left: ${startLeft}px;
+                        opacity: ${startOpacity};
+                        font-size:${flakeSize}px;
+                        top:-25px;
+            		      	transition:${durationTime}ms;
+            	  	`;
+
+				//拼接到页面中
+				document.body.appendChild(cloneFlake);
+
+				//设置第二个定时器，一次性定时器，
+				//当第一个定时器生成雪花，并在页面上渲染出来后，修改雪花的样式，让雪花动起来；
+				setTimeout(function () {
+					//第二次修改样式
+					cloneFlake.style.cssText += `
+                				left: ${endLeft}px;
+                				top:${documentHieght}px;
+                				opacity:${endOpacity};
+                			`;
+
+					//4、设置第三个定时器，当雪花落下后，删除雪花。
+					setTimeout(function () {
+						cloneFlake.remove();
+					}, durationTime);
+				}, 0);
+
+			}, millisec);
+		}
+
+		! function (e, t, a) {
+			function n() {
+				c(".love{width: 20px;height: 20px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.love:after,.love:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.love:after{top: -10px;}.love:before{left: -10px;}"), o(), r()
+			}
+
+			function r() {
+				for (var e = 0; e < d.length; e++) d[e].alpha <= 0 ? (t.body.removeChild(d[e].el), d.splice(e, 1)) : (d[e].y--, d[e].scale += .004, d[e].alpha -= .013, d[e].el.style.cssText = "left:" + d[e].x + "px;top:" + d[e].y + "px;opacity:" + d[e].alpha + ";transform:scale(" + d[e].scale + "," + d[e].scale + ") rotate(45deg);background:" + d[e].color + ";z-index:99999");
+				requestAnimationFrame(r)
+			}
+
+			function o() {
+				var t = "function" == typeof e.onclick && e.onclick;
+				e.onclick = function (e) {
+					t && t(), i(e)
 				}
 			}
-		</script>
 
-		<script type="module">
+			function i(e) {
+				var a = t.createElement("div");
+				a.className = "love", d.push({
+					el: a,
+					x: e.clientX - 5,
+					y: e.clientY - 5,
+					scale: 1,
+					alpha: 1,
+					color: s()
+				}), t.body.appendChild(a)
+			}
 
-			import * as THREE from 'three';
-			import { TWEEN } from './js/tween.module.min.js';
-			import { TrackballControls } from './js/TrackballControls.js';
-			import { CSS3DRenderer, CSS3DObject } from './js/CSS3DRenderer.js';
-			// 需要126张照片 在数组里填写 照片地址（照片可以通过发布图床形式，或者引用微博上的图片地址，或者是自己直接扔项目中用相对路径引用）
-			const table = [
-				'./img/1.jpg',
-				'./img/2.jpg',
-				'./img/3.jpg',
-				'./img/4.jpg',
-				'./img/5.jpg',
-				'./img/6.jpg',
-				'./img/7.jpg',
-				'./img/8.jpg',
-				'./img/9.jpg',
-				'./img/10.jpg',
-				'./img/11.jpg',
-				'./img/12.jpg',
-				'./img/13.jpg',
-				'./img/14.jpg',
-				'./img/15.jpg',
-				'./img/16.jpg',
-				'./img/17.jpg',
-				'./img/18.jpg',
-				'./img/19.jpg',
-				'./img/20.jpg',
-				'./img/21.jpg',
-				'./img/22.jpg',
-				'./img/23.jpg',
-				'./img/24.jpg',
-				'./img/25.jpg',
-				'./img/26.jpg',
-				'./img/27.jpg',
-				'./img/28.jpg',
-				'./img/1.jpg',
-				'./img/2.jpg',
-				'./img/3.jpg',
-				'./img/4.jpg',
-				'./img/5.jpg',
-				'./img/6.jpg',
-				'./img/7.jpg',
-				'./img/8.jpg',
-				'./img/9.jpg',
-				'./img/10.jpg',
-				'./img/11.jpg',
-				'./img/12.jpg',
-				'./img/13.jpg',
-				'./img/14.jpg',
-				'./img/15.jpg',
-				'./img/16.jpg',
-				'./img/17.jpg',
-				'./img/18.jpg',
-				'./img/19.jpg',
-				'./img/20.jpg',
-                './img/21.jpg',
-				'./img/22.jpg',
-				'./img/23.jpg',
-				'./img/24.jpg',
-				'./img/25.jpg',
-				'./img/26.jpg',
-				'./img/27.jpg',
-				'./img/28.jpg',
-				'./img/1.jpg',
-				'./img/2.jpg',
-				'./img/3.jpg',
-				'./img/4.jpg',
-				'./img/5.jpg',
-				'./img/6.jpg',
-				'./img/7.jpg',
-				'./img/8.jpg',
-				'./img/9.jpg',
-				'./img/10.jpg',
-				'./img/11.jpg',
-				'./img/12.jpg',
-				'./img/13.jpg',
-				'./img/14.jpg',
-				'./img/15.jpg',
-				'./img/16.jpg',
-				'./img/17.jpg',
-				'./img/18.jpg',
-				'./img/19.jpg',
-				'./img/20.jpg',
-				'./img/21.jpg',
-				'./img/22.jpg',
-				'./img/23.jpg',
-				'./img/24.jpg',
-				'./img/25.jpg',
-				'./img/26.jpg',
-				'./img/27.jpg',
-				'./img/28.jpg',
-				'./img/1.jpg',
-				'./img/2.jpg',
-				'./img/3.jpg',
-				'./img/4.jpg',
-				'./img/5.jpg',
-				'./img/6.jpg',
-				'./img/7.jpg',
-				'./img/8.jpg',
-				'./img/9.jpg',
-				'./img/10.jpg',
-				'./img/11.jpg',
-				'./img/12.jpg',
-				'./img/13.jpg',
-				'./img/14.jpg',
-				'./img/15.jpg',
-				'./img/16.jpg',
-				'./img/17.jpg',
-				'./img/18.jpg',
-				'./img/19.jpg',
-				'./img/20.jpg',
-				'./img/21.jpg',
-				'./img/22.jpg',
-				'./img/23.jpg',
-				'./img/24.jpg',
-				'./img/25.jpg',
-				'./img/26.jpg',
-				'./img/27.jpg',
-				'./img/28.jpg',
-				'./img/1.jpg',
-				'./img/2.jpg',
-				'./img/3.jpg',
-				'./img/4.jpg',
-				'./img/5.jpg',
-				'./img/6.jpg',
-				'./img/7.jpg',
-				'./img/8.jpg',
-				'./img/9.jpg',
-				'./img/10.jpg',
-				'./img/11.jpg',
-				'./img/12.jpg',
-				'./img/13.jpg',
-				'./img/14.jpg'
-			];
-
-			let camera, scene, renderer, geometry, material, plane, vector;
-			let controls, dom, obj;
-			const objects = [];
-			const targets = { helix: [] };
-			// 可自定义修改变量
-			// 旋转速度
-			const rSpeed = 0.005; 
-      // 背景需要旋转的角度 rad  Math.PI / 10
-      const rad = Math.PI / 10;
-
-			init();
-			animate();
-
-			function init() {
-
-				scene = new THREE.Scene();
-				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
-				camera.position.z = 1000;
-
-				dom = document.getElementsByClassName( 'plane' )[ 0 ];
-				dom.style.background = 'url(./img/one.png) no-repeat center center';
-				dom.style.backgroundSize='100% 100%'
-				obj = new CSS3DObject( dom );
-				// 添加到场景中
-				scene.add( obj );
-
-				for ( let i = 0; i < table.length; i += 1 ) {
-
-					const element = document.createElement( 'div' );
-					i >= 84 ? element.className = 'element last-element' : element.className = 'element';
-					// element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
-					element.style.background = 'url('+table[ i ] +') no-repeat center center';
-					element.style.backgroundSize = '100% 100%';
-					const objectCSS = new CSS3DObject( element );
-					scene.add( objectCSS );
-					objects.push( objectCSS );
+			function c(e) {
+				var a = t.createElement("style");
+				a.type = "text/css";
+				try {
+					a.appendChild(t.createTextNode(e))
+				} catch (t) {
+					a.styleSheet.cssText = e
 				}
-				// 环绕舞台场景
-				let y = 400;
-				let x = 0;
-				vector = new THREE.Vector3();
-				for ( let i = 0, l = objects.length; i < l; i ++ ) {
+				t.getElementsByTagName("head")[0].appendChild(a)
+			}
 
-					x >= 42 ? x = 1 : x += 1;
-					const theta = x * 0.15;
-					i % 42 == 0 ? y = y - 200 : y = y;
-
-					//实现Object3D对三维空间中的物体进行操纵
-					const object = new THREE.Object3D();
-
-					object.position.setFromCylindricalCoords( 1000, theta, y );
-
-					vector.x = object.position.x * - 2;
-					vector.y = object.position.y;
-					vector.z = object.position.z * - 2;
-					
-					// 旋转物体使其在世界空间中面朝一个点
-					object.lookAt( vector );
-
-					targets.helix.push( object );
-
+			function s() {
+				return "#cc2a5d"
+			}
+			var d = [];
+			e.requestAnimationFrame = function () {
+				return e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+					setTimeout(e, 1e3 / 60)
 				}
-				// 调用并实现CSS3Denderer渲染器
-				renderer = new CSS3DRenderer();
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.getElementById( 'container' ).appendChild( renderer.domElement );
-				controls = new TrackballControls( camera, renderer.domElement );
-				transform( targets.helix, 2000 );
-			}
-			// 运动动画
-			function transform( targets, duration ) {
-				for ( let i = 0; i < objects.length; i ++ ) {
+			}(), n()
+		}(window, document);
 
-					const object = objects[ i ];
-					const target = targets[ i ];
-					// 借助Tween.js快速创建补间动画
-					new TWEEN.Tween( object.position )
-						.to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
-						.easing( TWEEN.Easing.Exponential.InOut )
-						.start();
+	</script>
+</body>
 
-					new TWEEN.Tween( object.rotation )
-						.to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
-						.easing( TWEEN.Easing.Exponential.InOut )
-						.start();
-
-				}
-        obj.rotateZ(rad);
-        camera.rotateZ(rad)
-			}
-
-			function onWindowResize() {
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				render();
-			}
-
-			// 渲染场景
-			function animate() {
-				// 周期性渲染
-				requestAnimationFrame( animate );
-				obj.rotation.y += rSpeed;
-				scene.rotation.y -= rSpeed;
-				TWEEN.update();
-				// controls.update();
-				renderer.render( scene, camera );
-			}
-			// 使用透视相机渲染一个场景
-			function render() {
-				renderer.render( scene, camera );
-			}
-
-		</script>
-	</body>
 </html>
