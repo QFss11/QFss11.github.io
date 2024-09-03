@@ -2,11 +2,47 @@
 <html>
 
 <head>
-	<title>hq浪漫回忆</title>
+	<title>流萤宝宝</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="./css/main.css">
 	<link type="text/css" rel="stylesheet" href="./css/textcon.css">
+	<style>
+		/* .planeChild{
+		content: "";
+		position: absolute;
+		padding: 15px;
+		top: -30px;
+		left: 60%;
+		background-color: #f0f0f0; 
+		border-radius: 50px;
+		text-align: center;
+		max-height: 29px;
+		font-size: 16px;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		z-index: 99;
+		cursor: pointer;
+		}
+
+	   .plane::before{
+		content: "";
+		position: absolute;
+		top: 5px;
+		left: 70%;
+		width: 0;
+		overflow: auto;
+		height: 0;
+		border-top: 20px solid transparent;
+		border-bottom: 10px solid transparent;
+		border-left: 10px solid transparent;
+		border-right: 10px solid #fff;
+		transform: rotate(45deg);
+	   } */
+	</style>
 </head>
 
 <body>
@@ -24,7 +60,10 @@
 	</div>
 	<div class="heart"></div>
 	<div id="container"></div>
-	<div class="plane"></div>
+	<div class="plane">
+		<!-- <div class="planeChild" ></div> -->
+	</div>
+	
 	<div class="objectCSSArr"></div>
 
 	<script src="./js/three.min.js"></script>
@@ -161,14 +200,24 @@
 			'./img/125.jpg',
 			'./img/126.jpg',
 		];
-
-		let camera, scene, renderer, geometry, material, plane, vector;
+        const sayList = [
+			'我渴望 再看你一眼 将你的容颜 浸透在我的心里。',
+			'飞萤扑火，想死而生。',
+			'我梦见一片焦土，一株破土而生的新蕊，它迎着朝阳绽放，向我低语呢喃。',
+			'对我来说，「隐瞒」远比「坦诚」更简单...但我也想试试，自己能否像普通人一样表达心声…',
+			'也是眼下最好，也是最合理的选择了。毕竟这个漫长的故事，理应有一个「圆满」的结局。',
+			'不堪回首的过去，像泡沫一样散去，不愿面对的明天，永远也不会到来。',
+			'死亡就像剧本，是无法违抗的命运，但也正因如此，我们才要为自己，选择埋骨之地。',
+			'尽管这个世界并不真实，但这感受却无比珍贵。',
+		]
+		let camera, scene, renderer, geometry, material, plane, vector,timer;
 		let controls, dom, obj, objectCSSArr;
 		const objects = [];
 		const targets = { helix: [] };
 		var arr = "2024-06-19 12:00:00".split(/[- :]/);//改这里(认识的时间）
 		var box = document.getElementsByClassName('textCon')[0];
-
+        // var planeChild = document.getElementsByClassName('planeChild')[0]
+		// planeChild.innerText = sayList[0]
 		document.addEventListener('click', function () {
 			const audioId = document.getElementById('audio').play();
 		});
@@ -178,27 +227,42 @@
 		// 背景需要旋转的角度 rad  Math.PI / 10
 		const rad = Math.PI / 10;
 
+		const robot = {
+			// 机器人回复函数
+			reply: function() {
+				// 随机选择一个回复
+				const sayIndex = Math.floor(Math.random() * sayList.length);
+				return sayList[sayIndex];
+			}
+		};
+
 		init();
 		animate();
 		// 雪花
-		// snow();
+		snow();
 		window.setInterval(timer_start, 1000);
 		timer_start();
 
 		function init() {
+			// 创建场景
 			scene = new THREE.Scene();
+			// 创建相机
 			camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
+			// 相机位置
 			camera.position.z = 1000;
 
+			//#region 中间小人添加到场景中
 			dom = document.getElementsByClassName('plane')[0];
 			objectDiv = document.getElementsByClassName('objectCSSArr')[0];
-			dom.style.background = 'url(./img/one1.png) no-repeat center center';
+			dom.style.background = 'url(./img/one2.png) no-repeat center center';
 			dom.style.backgroundSize = '100% 100%'
 			obj = new THREE.CSS3DObject(dom);
 			objectCSSArr = new THREE.CSS3DObject(objectDiv);
 			// 添加到场景中
 			scene.add(obj);
-
+			//#endregion
+			
+			//#region 小人周边随机生成爱心
 			var width = dom.offsetWidth;
 			var count = parseInt(width / 50 * 2);
 			for (var i = 0; i < count; i++) {
@@ -212,7 +276,7 @@
 				ele.style.animationDelay = ran(0, 30) / 10 + 's';
 				dom.appendChild(ele);
 			}
-
+           //#endregion
 			for (let i = 0; i < table.length; i += 1) {
 				const element = document.createElement('div');
 				i >= 84 ? element.className = 'element last-element' : element.className = 'element';
@@ -223,9 +287,11 @@
 				objectCSSArr.add(objectCSS)
 				objects.push(objectCSS);
 			}
-
 			scene.add(objectCSSArr);
-			// 环绕舞台场景
+			//#endregion
+
+
+			//#region 照片墙环绕舞台场景
 			let y = 400;
 			let x = 0;
 			vector = new THREE.Vector3();
@@ -237,6 +303,7 @@
 
 				//实现Object3D对三维空间中的物体进行操纵
 				const object = new THREE.Object3D();
+
 
 				// object.position.setFromCylindricalCoords( 1000, theta, y );
 				object.position.x = 1000 * Math.sin(theta);
@@ -259,6 +326,9 @@
 			document.getElementById('container').appendChild(renderer.domElement);
 			controls = new THREE.TrackballControls(camera, renderer.domElement);
 			transform(targets.helix, 2000);
+			// randomSay();
+			//#endregion
+		
 		}
 
 		function ran(min, max) {
@@ -288,6 +358,19 @@
 			document.getElementsByClassName('seconds')[0].innerHTML = (hours + " 时 " + minutes + " 分 " + seconds + " 秒");
 		}
 
+
+		// function randomSay(){
+		// 	timer = setInterval(()=>{
+		// 		planeChild.innerText =  robot.reply()
+		// 	},10000)
+		// }
+    
+		// planeChild.addEventListener('click',()=>{
+		// 	clearInterval(timer);
+		// 	planeChild.innerText =  robot.reply();
+		// 	randomSay();
+		// })
+		
 
 		// 运动动画
 		function transform(targets, duration) {
@@ -339,7 +422,7 @@
 			flake.style.cssText = 'position:absolute;color:#fff;';
 
 			//获取页面的高度 相当于雪花下落结束时Y轴的位置
-			var documentHieght = window.innerHeight;
+			var documentHieght = window.innerHeight - 25;
 			//获取页面的宽度，利用这个数来算出，雪花开始时left的值
 			var documentWidth = window.innerWidth;
 
@@ -449,6 +532,7 @@
 				}
 			}(), n()
 		}(window, document);
+
 
 	</script>
 </body>

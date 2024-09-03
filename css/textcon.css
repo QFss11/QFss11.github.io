@@ -9,24 +9,27 @@
     margin: 50px auto;
     z-index: 9;
 }
+
 .heart::before,
-.heart::after{
-    content:'';
-    width:100%;
-    height:100%;
-    background-color:#cc2a5d;
+.heart::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: #cc2a5d;
     border-radius: 50%;
 }
-.heart::before{
+
+.heart::before {
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     transform: translateX(-50%);
 }
-.heart::after{
+
+.heart::after {
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     transform: translateY(-50%);
 }
 
@@ -34,41 +37,50 @@
     font-size: 48px;
 }
 
-.plane .item{
+
+
+
+
+.plane .item {
     position: absolute;
     opacity: 0;
-    background-color:#cc2a5d;
+    background-color: #cc2a5d;
     transform: rotate(45deg);
     animation: hearts 3s ease-in infinite;
 }
+
 .plane .item::before,
-.plane .item::after{
-    content:'';
-    width:100%;
-    height:100%;
-    background-color:#cc2a5d;
+.plane .item::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: #cc2a5d;
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     border-radius: 50%;
 }
-.plane .item::before{
+
+.plane .item::before {
     transform: translateX(-50%);
 }
-.plane .item::after{
+
+.plane .item::after {
     transform: translateY(-50%);
 }
 
-@keyframes hearts{
-    0%{
+@keyframes hearts {
+    0% {
         opacity: 0;
         transform: translateY(0%) rotate(45deg);
     }
-    20%{
+
+    20% {
         opacity: 0.8;
         transform: translateY(-20%) rotate(45deg);
     }
-    100%{
+
+    100% {
         opacity: 0;
         transform: translateY(-1000%) rotate(45deg);
     }
@@ -105,7 +117,8 @@
     width: auto;
     text-align: center;
 }
-.days-number{
+
+.days-number {
     color: #fff;
 }
 
@@ -115,4 +128,27 @@
     width: auto;
     text-align: center;
     color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    .plane {
+        width: 280px;
+        height: 450px;
+    }
+    .text {
+        font-size: 24px;
+    }
+
+    .words {
+        font-size: 28px;
+    }
+
+    .days {
+        font-size: 24px;
+    }
+
+    .seconds,.days-label {
+        font-size: 24px;
+
+    }
 }

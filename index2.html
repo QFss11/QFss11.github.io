@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title> Document </title>
+    <style>
+
+        .img-container {
+            width: 500px;
+            height: 300px;
+            /*网格布局*/
+            display: grid;
+            /*网格布局列数与宽度*/
+            grid-template-columns: repeat(5, 1fr);
+            /*网格布局行数与高度*/
+            grid-template-rows: repeat(3, 1fr);
+        }
+
+        .img-item {
+            /*添加阴影效果*/
+            box-shadow: inset 0 0 0 1px #fff;
+            /*元素属性变化时平滑过度，优化视觉体验*/
+            transition: 0.5s;
+            background-size: 500px 300px;
+            /*设置背景图像*/
+            background-image: url(./img/1.jpg);
+            /*相对定位*/
+            position: relative;
+        }
+
+        /* 3n+1  选中第一列的元素 1 4 7*/
+        .img-item:nth-child(5n+1) {
+            background-position-x: 0;
+            left: -10px;
+        }
+
+        /* 3n+2  选中第二列的元素 2 5 8*/
+        .img-item:nth-child(5n + 2) {
+            background-position-x: -100%;
+            left: -5px;
+        }
+
+        .img-item:nth-child(5n + 3) {
+            background-position-x: -200%;
+            left: 0;
+        }
+
+        .img-item:nth-child(5n + 4) {
+            background-position-x: -300%;
+            left: 5px;
+        }
+
+        /* 3n+0  选中第三列的元素 3 6 9*/
+        .img-item:nth-child(5n) {
+            background-position-x: -400%;
+            left: 10px;
+        }
+
+        /* n+7  选中第3行的元素 11 12 13 14 15*/
+        .img-item:nth-child(n + 11) {
+            background-position-y: 400%;
+            top: 5px;
+        }
+
+        /* -n + 6 选中第一、二行的元素 10 9 8 7 6 5 4 3 2 1*/
+        .img-item:nth-child(-n + 10) {
+            background-position-y: -100%;
+            top: 0px;
+        }
+
+        /* -n + 6 选中第一行的元素5 4 3 2 1*/
+        .img-item:nth-child(-n+5) {
+            background-position-y: -0%;
+            top: -5px;
+        }
+
+        /* 鼠标移入时修改 img-item 属性值 */
+        /* .img-container:hover .img-item {
+            left: 0;
+            top: 0;
+            box-shadow: inset 0 0 0 0px #fff;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="img-container">
+        <!--Emmet缩写: div.img-item*9 -->
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+    </div>
+</body>
+
+</html>
